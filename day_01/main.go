@@ -76,6 +76,6 @@ func part_two() int {
 }
 
 func main() {
-	// fmt.Println(part_one())
+	fmt.Println(part_one())
 	fmt.Println(part_two())
 }
