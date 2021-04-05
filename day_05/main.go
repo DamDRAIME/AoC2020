@@ -44,15 +44,19 @@ func binary_find(array string, min, max int, lower, higher rune) int {
 	return mid
 }
 
+func get_seat_id(boarding_pass string) int {
+	row := binary_find(boarding_pass[:7], 0, 127, 'F', 'B')
+	col := binary_find(boarding_pass[7:], 0, 7, 'L', 'R')
+	return row*8 + col
+}
+
 func part_one() int {
 	var highest_seat_id int
 	const boarding_passes_path string = "input.txt"
 	lines_chnl := make(chan string)
 	go Readlines(boarding_passes_path, lines_chnl)
 	for boarding_pass := range lines_chnl {
-		row := binary_find(boarding_pass[:7], 0, 127, 'F', 'B')
-		col := binary_find(boarding_pass[7:], 0, 7, 'L', 'R')
-		seat_id := row*8 + col
+		seat_id := get_seat_id(boarding_pass)
 		if seat_id > highest_seat_id {
 			highest_seat_id = seat_id
 		}
@@ -66,9 +70,7 @@ func part_two() int {
 	lines_chnl := make(chan string)
 	go Readlines(boarding_passes_path, lines_chnl)
 	for boarding_pass := range lines_chnl {
-		row := binary_find(boarding_pass[:7], 0, 127, 'F', 'B')
-		col := binary_find(boarding_pass[7:], 0, 7, 'L', 'R')
-		seat_id := row*8 + col
+		seat_id := get_seat_id(boarding_pass)
 		seat_ids = append(seat_ids, seat_id)
 	}
 	sort.Ints(seat_ids)
